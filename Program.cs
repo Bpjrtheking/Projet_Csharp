@@ -33,7 +33,7 @@ class Program
             switch (choix)
             {
                 case 1:
-                    Console.WriteLine("Saisie des étudiants");
+                    SaisirEtudiants();
                     break;
 
                 case 2:
@@ -85,5 +85,75 @@ class Program
             }
 
         } while (choix != 10);
+    }
+
+    static void SaisirEtudiants()
+    {
+        Console.Clear();
+
+        Console.WriteLine("=== SAISIE DES ÉTUDIANTS ===");
+        Console.WriteLine();
+
+        Console.Write("Combien d'étudiants voulez-vous ajouter ? ");
+        int nombre = Convert.ToInt32(Console.ReadLine());
+
+        for (int i = 0; i < nombre; i++)
+        {
+            Console.Clear();
+
+            Console.WriteLine("=== ÉTUDIANT " + (i + 1) + " ===");
+            Console.WriteLine();
+
+            Console.Write("Nom : ");
+            string nom = Console.ReadLine();
+
+            Console.Write("Prénom : ");
+            string prenom = Console.ReadLine();
+
+            Console.Write("Matricule : ");
+            string matricule = Console.ReadLine();
+
+            bool existe = false;
+
+            foreach (Etudiant etudiant in etudiants)
+            {
+                if (etudiant.Matricule == matricule)
+                {
+                    existe = true;
+                    break;
+                }
+            }
+
+            if (existe)
+            {
+                Console.WriteLine();
+                Console.WriteLine("Ce matricule existe déjà.");
+                Console.WriteLine("Cet étudiant ne sera pas ajouté.");
+                Console.ReadKey();
+
+                i--;
+                continue;
+            }
+
+            Etudiant nouvelEtudiant = new Etudiant();
+
+            nouvelEtudiant.Nom = nom;
+            nouvelEtudiant.Prenom = prenom;
+            nouvelEtudiant.Matricule = matricule;
+            nouvelEtudiant.Note = null;
+
+            etudiants.Add(nouvelEtudiant);
+
+            Console.WriteLine();
+            Console.WriteLine("Étudiant ajouté avec succès !");
+            Console.ReadKey();
+        }
+
+        Console.Clear();
+
+        Console.WriteLine("Tous les étudiants ont été saisis.");
+        Console.WriteLine();
+        Console.WriteLine("Appuyez sur une touche pour revenir au menu...");
+        Console.ReadKey();
     }
 }
