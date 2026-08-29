@@ -37,7 +37,7 @@ class Program
                     break;
 
                 case 2:
-                    Console.WriteLine("Saisie / Modification des notes");
+                    SaisirModifierNote();
                     break;
 
                 case 3:
@@ -185,6 +185,82 @@ class Program
                 Console.WriteLine("----------------------------");
             }
         }
+
+        Console.WriteLine();
+        Console.WriteLine("Appuyez sur une touche pour revenir au menu...");
+        Console.ReadKey();
+    }
+
+    static void SaisirModifierNote()
+    {
+        Console.Clear();
+
+        Console.WriteLine("=== SAISIR / MODIFIER UNE NOTE ===");
+        Console.WriteLine();
+
+        if (etudiants.Count == 0)
+        {
+            Console.WriteLine("Aucun étudiant enregistré.");
+            Console.WriteLine();
+            Console.WriteLine("Appuyez sur une touche pour revenir...");
+            Console.ReadKey();
+            return;
+        }
+
+        Console.Write("Entrez le nom ou le matricule de l'étudiant : ");
+        string recherche = Console.ReadLine();
+
+        Etudiant etudiantTrouve = null;
+
+        foreach (Etudiant etudiant in etudiants)
+        {
+            if (etudiant.Nom.Equals(recherche, StringComparison.OrdinalIgnoreCase)
+                || etudiant.Matricule.Equals(recherche, StringComparison.OrdinalIgnoreCase))
+            {
+                etudiantTrouve = etudiant;
+                break;
+            }
+        }
+
+        if (etudiantTrouve == null)
+        {
+            Console.WriteLine();
+            Console.WriteLine("Étudiant introuvable.");
+            Console.WriteLine();
+            Console.WriteLine("Appuyez sur une touche pour revenir...");
+            Console.ReadKey();
+            return;
+        }
+
+        Console.WriteLine();
+        Console.WriteLine("Étudiant : " + etudiantTrouve.Prenom + " " + etudiantTrouve.Nom);
+        Console.WriteLine("Matricule : " + etudiantTrouve.Matricule);
+
+        if (etudiantTrouve.Note.HasValue)
+            Console.WriteLine("Ancienne note : " + etudiantTrouve.Note + "/20");
+        else
+            Console.WriteLine("Ancienne note : Non renseignée");
+
+        double note;
+
+        while (true)
+        {
+            Console.Write("Nouvelle note (0 à 20) : ");
+
+            if (double.TryParse(Console.ReadLine(), out note))
+            {
+                if (note >= 0 && note <= 20)
+                    break;
+            }
+
+            Console.WriteLine("Note invalide. Entrez une note entre 0 et 20.");
+        }
+
+        etudiantTrouve.Note = note;
+
+        Console.WriteLine();
+        Console.WriteLine("Note enregistrée avec succès !");
+        Console.WriteLine("Mention : " + etudiantTrouve.GetMention());
 
         Console.WriteLine();
         Console.WriteLine("Appuyez sur une touche pour revenir au menu...");
