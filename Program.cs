@@ -57,7 +57,7 @@ class Program
                     break;
 
                 case 7:
-                    Console.WriteLine("Statistiques de la classe");
+                    AfficherStatistiques();
                     break;
 
                 case 8:
@@ -371,6 +371,80 @@ class Program
 
         Console.WriteLine();
         Console.WriteLine("Nombre total à rattraper : " + total);
+        Console.WriteLine();
+        Console.WriteLine("Appuyez sur une touche pour revenir...");
+        Console.ReadKey();
+    }
+
+    static void AfficherStatistiques()
+    {
+        Console.Clear();
+
+        Console.WriteLine("=== STATISTIQUES DE LA CLASSE ===");
+        Console.WriteLine();
+
+        double somme = 0;
+        int nombreNotes = 0;
+        int nombreAdmis = 0;
+
+        double meilleureNote = -1;
+        double plusFaibleNote = 21;
+
+        Etudiant meilleurEtudiant = null;
+        Etudiant plusFaibleEtudiant = null;
+
+        foreach (Etudiant etudiant in etudiants)
+        {
+            if (etudiant.Note.HasValue)
+            {
+                double note = etudiant.Note.Value;
+
+                somme += note;
+                nombreNotes++;
+
+                if (note >= 10)
+                    nombreAdmis++;
+
+                if (note > meilleureNote)
+                {
+                    meilleureNote = note;
+                    meilleurEtudiant = etudiant;
+                }
+
+                if (note < plusFaibleNote)
+                {
+                    plusFaibleNote = note;
+                    plusFaibleEtudiant = etudiant;
+                }
+            }
+        }
+
+        if (nombreNotes == 0)
+        {
+            Console.WriteLine("Aucune note renseignée.");
+        }
+        else
+        {
+            double moyenne = somme / nombreNotes;
+            double tauxReussite = (double)nombreAdmis / nombreNotes * 100;
+
+            Console.WriteLine("Moyenne générale : " + moyenne.ToString("F2") + "/20");
+            Console.WriteLine();
+
+            Console.WriteLine("Meilleure note : " + meilleureNote + "/20");
+            Console.WriteLine("Étudiant : " + meilleurEtudiant.Prenom
+                + " " + meilleurEtudiant.Nom);
+            Console.WriteLine();
+
+            Console.WriteLine("Plus faible note : " + plusFaibleNote + "/20");
+            Console.WriteLine("Étudiant : " + plusFaibleEtudiant.Prenom
+                + " " + plusFaibleEtudiant.Nom);
+            Console.WriteLine();
+
+            Console.WriteLine("Taux de réussite : "
+                + tauxReussite.ToString("F2") + "%");
+        }
+
         Console.WriteLine();
         Console.WriteLine("Appuyez sur une touche pour revenir...");
         Console.ReadKey();
