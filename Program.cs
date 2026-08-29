@@ -45,11 +45,11 @@ class Program
                     break;
 
                 case 4:
-                    Console.WriteLine("Étudiants admis");
+                    AfficherAdmis();
                     break;
 
                 case 5:
-                    Console.WriteLine("Étudiants à rattraper");
+                    AfficherRattrapage();
                     break;
 
                 case 6:
@@ -321,6 +321,58 @@ class Program
 
         Console.WriteLine();
         Console.WriteLine("Appuyez sur une touche pour revenir au menu...");
+        Console.ReadKey();
+    }
+
+    static void AfficherAdmis()
+    {
+        Console.Clear();
+
+        Console.WriteLine("=== ÉTUDIANTS ADMIS ===");
+        Console.WriteLine();
+
+        int total = 0;
+
+        foreach (Etudiant etudiant in etudiants)
+        {
+            if (etudiant.Note.HasValue && etudiant.Note >= 10)
+            {
+                Console.WriteLine(etudiant.Nom + " " + etudiant.Prenom
+                    + " - " + etudiant.Note + "/20");
+                total++;
+            }
+        }
+
+        Console.WriteLine();
+        Console.WriteLine("Nombre total d'admis : " + total);
+        Console.WriteLine();
+        Console.WriteLine("Appuyez sur une touche pour revenir...");
+        Console.ReadKey();
+    }
+
+    static void AfficherRattrapage()
+    {
+        Console.Clear();
+
+        Console.WriteLine("=== ÉTUDIANTS À RATTRAPER ===");
+        Console.WriteLine();
+
+        int total = 0;
+
+        foreach (Etudiant etudiant in etudiants)
+        {
+            if (etudiant.Note.HasValue && etudiant.Note < 10)
+            {
+                Console.WriteLine(etudiant.Nom + " " + etudiant.Prenom
+                    + " - " + etudiant.Note + "/20");
+                total++;
+            }
+        }
+
+        Console.WriteLine();
+        Console.WriteLine("Nombre total à rattraper : " + total);
+        Console.WriteLine();
+        Console.WriteLine("Appuyez sur une touche pour revenir...");
         Console.ReadKey();
     }
 }
