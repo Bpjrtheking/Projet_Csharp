@@ -41,7 +41,7 @@ class Program
                     break;
 
                 case 3:
-                    Console.WriteLine("Liste complète");
+                    AfficherEtudiants();
                     break;
 
                 case 4:
@@ -152,6 +152,40 @@ class Program
         Console.Clear();
 
         Console.WriteLine("Tous les étudiants ont été saisis.");
+        Console.WriteLine();
+        Console.WriteLine("Appuyez sur une touche pour revenir au menu...");
+        Console.ReadKey();
+    }
+
+    static void AfficherEtudiants()
+    {
+        Console.Clear();
+
+        Console.WriteLine("=== LISTE DES ÉTUDIANTS ===");
+        Console.WriteLine();
+
+        if (etudiants.Count == 0)
+        {
+            Console.WriteLine("Aucun étudiant enregistré.");
+        }
+        else
+        {
+            foreach (Etudiant etudiant in etudiants)
+            {
+                Console.WriteLine("Nom : " + etudiant.Nom);
+                Console.WriteLine("Prénom : " + etudiant.Prenom);
+                Console.WriteLine("Matricule : " + etudiant.Matricule);
+
+                if (etudiant.Note.HasValue)
+                    Console.WriteLine("Note : " + etudiant.Note + "/20");
+                else
+                    Console.WriteLine("Note : Non renseignée");
+
+                Console.WriteLine("Mention : " + etudiant.GetMention());
+                Console.WriteLine("----------------------------");
+            }
+        }
+
         Console.WriteLine();
         Console.WriteLine("Appuyez sur une touche pour revenir au menu...");
         Console.ReadKey();
