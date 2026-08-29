@@ -28,7 +28,7 @@ class Program
             Console.WriteLine();
 
             Console.Write("Votre choix : ");
-            choix = Convert.ToInt32(Console.ReadLine());
+            choix = LireEntier();
 
             switch (choix)
             {
@@ -95,8 +95,13 @@ class Program
         Console.WriteLine();
 
         Console.Write("Combien d'étudiants voulez-vous ajouter ? ");
-        int nombre = Convert.ToInt32(Console.ReadLine());
+        int nombre = LireEntier();
 
+        while (nombre <= 0)
+        {
+            Console.Write("Entrez un nombre supérieur à 0 : ");
+            nombre = LireEntier();
+        }
         for (int i = 0; i < nombre; i++)
         {
             Console.Clear();
@@ -560,5 +565,17 @@ class Program
         Console.WriteLine();
         Console.WriteLine("Appuyez sur une touche pour revenir...");
         Console.ReadKey();
+    }
+
+    static int LireEntier()
+    {
+        int nombre;
+
+        while (!int.TryParse(Console.ReadLine(), out nombre))
+        {
+            Console.Write("Valeur invalide. Entrez un nombre : ");
+        }
+
+        return nombre;
     }
 }
