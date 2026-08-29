@@ -53,7 +53,7 @@ class Program
                     break;
 
                 case 6:
-                    Console.WriteLine("Recherche d'un étudiant");
+                    RechercherEtudiant();
                     break;
 
                 case 7:
@@ -261,6 +261,63 @@ class Program
         Console.WriteLine();
         Console.WriteLine("Note enregistrée avec succès !");
         Console.WriteLine("Mention : " + etudiantTrouve.GetMention());
+
+        Console.WriteLine();
+        Console.WriteLine("Appuyez sur une touche pour revenir au menu...");
+        Console.ReadKey();
+    }
+
+    static void RechercherEtudiant()
+    {
+        Console.Clear();
+
+        Console.WriteLine("=== RECHERCHER UN ÉTUDIANT ===");
+        Console.WriteLine();
+
+        if (etudiants.Count == 0)
+        {
+            Console.WriteLine("Aucun étudiant enregistré.");
+            Console.WriteLine();
+            Console.WriteLine("Appuyez sur une touche pour revenir...");
+            Console.ReadKey();
+            return;
+        }
+
+        Console.Write("Nom ou matricule : ");
+        string recherche = Console.ReadLine();
+
+        Etudiant etudiantTrouve = null;
+
+        foreach (Etudiant etudiant in etudiants)
+        {
+            if (etudiant.Nom.Equals(recherche, StringComparison.OrdinalIgnoreCase)
+                || etudiant.Matricule.Equals(recherche, StringComparison.OrdinalIgnoreCase))
+            {
+                etudiantTrouve = etudiant;
+                break;
+            }
+        }
+
+        Console.WriteLine();
+
+        if (etudiantTrouve == null)
+        {
+            Console.WriteLine("Aucun étudiant trouvé.");
+        }
+        else
+        {
+            Console.WriteLine("=== ÉTUDIANT TROUVÉ ===");
+            Console.WriteLine("Nom : " + etudiantTrouve.Nom);
+            Console.WriteLine("Prénom : " + etudiantTrouve.Prenom);
+            Console.WriteLine("Matricule : " + etudiantTrouve.Matricule);
+
+            if (etudiantTrouve.Note.HasValue)
+                Console.WriteLine("Note : " + etudiantTrouve.Note + "/20");
+            else
+                Console.WriteLine("Note : Non renseignée");
+
+            Console.WriteLine("Mention : " + etudiantTrouve.GetMention());
+        }
 
         Console.WriteLine();
         Console.WriteLine("Appuyez sur une touche pour revenir au menu...");
