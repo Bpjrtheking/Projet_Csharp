@@ -61,11 +61,11 @@ class Program
                     break;
 
                 case 8:
-                    Console.WriteLine("Tri des étudiants");
+                    TrierEtudiants();
                     break;
 
                 case 9:
-                    Console.WriteLine("Suppression d'un étudiant");
+                    SupprimerEtudiant();
                     break;
 
                 case 10:
@@ -443,6 +443,118 @@ class Program
 
             Console.WriteLine("Taux de réussite : "
                 + tauxReussite.ToString("F2") + "%");
+        }
+
+        Console.WriteLine();
+        Console.WriteLine("Appuyez sur une touche pour revenir...");
+        Console.ReadKey();
+    }
+
+    static void TrierEtudiants()
+    {
+        Console.Clear();
+
+        Console.WriteLine("=== TRIER LES ÉTUDIANTS ===");
+        Console.WriteLine();
+        Console.WriteLine("1. Trier par nom");
+        Console.WriteLine("2. Trier par note décroissante");
+        Console.WriteLine("0. Retour");
+        Console.WriteLine();
+
+        Console.Write("Votre choix : ");
+        string choix = Console.ReadLine();
+
+        if (choix == "0")
+            return;
+
+        if (choix == "1")
+        {
+            etudiants.Sort((a, b) =>
+                string.Compare(a.Nom, b.Nom, StringComparison.OrdinalIgnoreCase));
+        }
+        else if (choix == "2")
+        {
+            etudiants.Sort((a, b) =>
+            {
+                if (!a.Note.HasValue && !b.Note.HasValue)
+                    return 0;
+
+                if (!a.Note.HasValue)
+                    return 1;
+
+                if (!b.Note.HasValue)
+                    return -1;
+
+                return b.Note.Value.CompareTo(a.Note.Value);
+            });
+        }
+        else
+        {
+            Console.WriteLine("Choix invalide.");
+            Console.ReadKey();
+            return;
+        }
+
+        Console.Clear();
+
+        Console.WriteLine("=== RÉSULTAT DU TRI ===");
+        Console.WriteLine();
+
+        foreach (Etudiant etudiant in etudiants)
+        {
+            string note = etudiant.Note.HasValue
+                ? etudiant.Note.Value + "/20"
+                : "Non renseignée";
+
+            Console.WriteLine(etudiant.Nom + " " + etudiant.Prenom
+                + " - " + note);
+        }
+
+        Console.WriteLine();
+        Console.WriteLine("Appuyez sur une touche pour revenir...");
+        Console.ReadKey();
+    }
+
+    static void SupprimerEtudiant()
+    {
+        Console.Clear();
+
+        Console.WriteLine("=== SUPPRIMER UN ÉTUDIANT ===");
+        Console.WriteLine();
+
+        if (etudiants.Count == 0)
+        {
+            Console.WriteLine("Aucun étudiant enregistré.");
+            Console.ReadKey();
+            return;
+        }
+
+        Console.Write("Nom ou matricule : ");
+        string recherche = Console.ReadLine();
+
+        Etudiant etudiantTrouve = null;
+
+        foreach (Etudiant etudiant in etudiants)
+        {
+            if (etudiant.Nom.Equals(recherche, StringComparison.OrdinalIgnoreCase)
+                || etudiant.Matricule.Equals(recherche, StringComparison.OrdinalIgnoreCase))
+            {
+                etudiantTrouve = etudiant;
+                break;
+            }
+        }
+
+        if (etudiantTrouve == null)
+        {
+            Console.WriteLine();
+            Console.WriteLine("Étudiant introuvable.");
+        }
+        else
+        {
+            etudiants.Remove(etudiantTrouve);
+
+            Console.WriteLine();
+            Console.WriteLine("Étudiant supprimé avec succès.");
         }
 
         Console.WriteLine();
